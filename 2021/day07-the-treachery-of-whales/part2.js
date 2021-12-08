@@ -35,10 +35,16 @@ function calculateNeededFuel(positions, destinationPosition) {
 
 /**
  * The average point is the best destination in this case.
- * The reason is fuel consumption is not linear anymore. It's (1 + steps) * steps / 2 now.
- * Therefore the fewer steps for the furthest position to move, the less power consumption needed.
- * In other words, the furthest position will dominate the total power consumption.
- * And the furthest position need to move the least steps if we choose the average point as our destination.
+ * 
+ * Prof:
+ * Given X = [X1, X2, ..., Xn]. Find Y that minimize Σ(Xi - Y)^2
+ *
+ *        Σ(Xi - Y)^2 = Σ(Xi^2) + Σ(Y^2 - 2XiY)
+ *                    = Σ(Xi^2) + nY^2 - 2Y * Σ(Xi)
+ *                    = Σ(Xi^2) + nY^2 - 2Y * nx̄
+ *                    = Σ(Xi^2) + n(Y^2 - 2Yx̄)
+ *                    = Σ(Xi^2) + n[(Y - x̄)^2 - x̄^2]
+ *.       => Y = x̄ #
  */
 function getTotalFuel(positions) {
   const averagePoint = findAveragePoint(positions);
